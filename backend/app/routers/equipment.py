@@ -71,7 +71,7 @@ async def upload_equipment_documents(
     files: List[UploadFile] = File(...),
     description: Optional[str] = Form(None),
 ):
-    db = get_database()
+    db = await get_database()
 
     equipment = await db.equipment.find_one({"_id": ObjectId(equipment_id)})
     if not equipment:
