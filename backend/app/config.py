@@ -6,8 +6,7 @@ class Settings(BaseSettings):
 
     DEEPGRAM_API_KEY: str
     GROQ_API_KEY: str
-    ELEVENLABS_API_KEY: str=''
-    ELEVENLABS_VOICE_ID: str = "pNInz6obpgDQGcFmaJgB"
+    CARTESIA_API_KEY: str=''
 
     GROQ_MODEL: str = "openai/gpt-oss-20b"
     GROQ_BASE_URL: str = "https://api.groq.com/openai/v1"

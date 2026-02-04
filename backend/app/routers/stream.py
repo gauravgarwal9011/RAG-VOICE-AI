@@ -41,7 +41,7 @@ async def bot_connect(request: Request) -> Dict[str, Any]:
             detail="equipment_id is required"
         )
     
-    db = get_database()
+    db = await get_database()
 
     try:
         equipment = await db.equipment.find_one({"_id": ObjectId(equipment_id)})
@@ -92,7 +92,7 @@ async def websocket_endpoint(websocket: WebSocket, equipment_id: str):
     logger.info(f"WebSocket connection accepted for equipment: {equipment_id}")
 
     try:
-        db = get_database()
+        db = await get_database()
         equipment = await db.equipment.find_one({"_id": ObjectId(equipment_id)})
 
         if not equipment:
