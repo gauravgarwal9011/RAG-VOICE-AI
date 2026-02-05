@@ -240,7 +240,7 @@ requires-dist = [
     { name = "langchain-text-splitters", specifier = ">=1.1.0" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "motor", specifier = ">=3.7.1" },
-    { name = "pipecat-ai", extras = ["cartesia", "deepgram", "elevenlabs", "groq", "local-smart-turn-v3"], specifier = ">=0.0.101" },
+    { name = "pipecat-ai", extras = ["cartesia", "deepgram", "elevenlabs", "groq", "local-smart-turn-v3"], specifier = "==0.0.99" },
     { name = "pydantic-settings", specifier = ">=2.12.0" },
     { name = "pymongo", specifier = ">=4.16.0" },
     { name = "pypdf", specifier = ">=6.6.2" },
@@ -1568,7 +1568,7 @@ wheels = [
 
 [[package]]
 name = "pipecat-ai"
-version = "0.0.101"
+version = "0.0.99"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -1588,9 +1588,9 @@ dependencies = [
     { name = "resampy" },
     { name = "soxr" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/47/60/ca0ca924d39d56f5d72b847a9626e71cef0bfeec38b2cf141f2ee49e445a/pipecat_ai-0.0.101.tar.gz", hash = "sha256:fa02d334cb66876e6fb82166d2773da57db6a5fa1bb2ab70aec2d25dd3d751e0", size = 10936931, upload-time = "2026-01-31T07:00:22.312Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/28/5f5f358e64d690e8fe96ada12d1a17ddf419c51f4764fd00686ef020a7e8/pipecat_ai-0.0.99.tar.gz", hash = "sha256:748b7f1d326cd0d8ec5ccdcef817966f25c56924b32307b1ed65395f297cce39", size = 10840935, upload-time = "2026-01-14T01:18:37.367Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/fc/9959670d2e46761bea97f527d87510f0c2d42c18271a8079ee780183c005/pipecat_ai-0.0.101-py3-none-any.whl", hash = "sha256:f40763d36c9c796d2fd5fb11e7a315f6f782637a79e44b7db5b577bc764332ed", size = 10571127, upload-time = "2026-01-31T07:00:19.548Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/ff/3d284a150f0565a65e2b5c119a5b1ba567c59abb8b2197cc2c538bec7b3b/pipecat_ai-0.0.99-py3-none-any.whl", hash = "sha256:e4dded7b592bfe1f91144b16e80ad4feb12ae5f17f78c45cc146e9f05bed2836", size = 10523911, upload-time = "2026-01-14T01:18:35.032Z" },
 ]
 
 [package.optional-dependencies]

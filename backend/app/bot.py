@@ -28,13 +28,7 @@ from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
 from pipecat.pipeline.task import PipelineParams, PipelineTask
 from pipecat.processors.aggregators.llm_context import LLMContext
-from pipecat.processors.aggregators.llm_response_universal import (
-    LLMContextAggregatorPair,
-    LLMUserAggregatorParams,
-)
-from pipecat.turns.user_turn_strategies import UserTurnStrategies
-from pipecat.turns.user_stop import TurnAnalyzerUserTurnStopStrategy
-from pipecat.turns.user_start import VADUserTurnStartStrategy
+from pipecat.processors.aggregators.llm_response_universal import LLMContextAggregatorPair
 
 from pipecat.processors.frameworks.rtvi import RTVIConfig, RTVIObserver, RTVIProcessor
 from pipecat.runner.types import RunnerArguments, WebSocketRunnerArguments
@@ -70,9 +64,12 @@ class TextCaptureProcessor(FrameProcessor):
                         )
                     )
         await self.push_frame(frame, direction)
+
+
 logger.info("✅ All components loaded successfully!")
 
 load_dotenv(override=True)
+
 
 async def run_bot(transport: BaseTransport, runner_args: RunnerArguments):
     logger.info(f"Starting bot")
@@ -189,20 +186,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments):
     ]
 
     context = LLMContext(messages, tools=ToolsSchema(standard_tools=[search_tool]))
-    context_aggregator = LLMContextAggregatorPair(
-        context,
-        user_params=LLMUserAggregatorParams(
-            user_turn_strategies=UserTurnStrategies(
-                start=[VADUserTurnStartStrategy()],
-                stop=[
-                    TurnAnalyzerUserTurnStopStrategy(
-                        turn_analyzer=LocalSmartTurnAnalyzerV3()
-                    )
-                ],
-            ),
-            vad_analyzer=SileroVADAnalyzer(params=VADParams(stop_secs=0.2)),
-        ),
-    )
+    context_aggregator = LLMContextAggregatorPair(context)
 
     tts = CartesiaTTSService(
         api_key=os.getenv("CARTESIA_API_KEY"),
@@ -262,6 +246,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments):
         logger.error(f"Error in bot: {e}")
         raise e
 
+
 async def bot(runner_args: WebSocketRunnerArguments):
     transport = FastAPIWebsocketTransport(
         websocket=runner_args.websocket,
@@ -269,7 +254,13 @@ async def bot(runner_args: WebSocketRunnerArguments):
             audio_in_enabled=True,
             audio_out_enabled=True,
             add_wav_header=False,
+            vad_analyzer=SileroVADAnalyzer(params=VADParams(
+                stop_secs=0.5,
+                start_secs=0.1,
+                min_volume=0.5
+            )),
             serializer=ProtobufFrameSerializer(),
+            turn_analyzer=LocalSmartTurnAnalyzerV3(),
         ),
     )
 
@@ -278,3 +269,7 @@ async def bot(runner_args: WebSocketRunnerArguments):
     except Exception as e:
         logger.error(f"Error in bot: {e}")
         raise e
+
+if __name__ == "__main__":
+    from pipecat.runner.run import main
+    main()
